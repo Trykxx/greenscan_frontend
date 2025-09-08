@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/edit_profile_page.dart';
+import 'view/splash_screen.dart';
+import 'package:frontend/view/login_page.dart';
 import 'view/profile_page.dart';
 import 'view/register_page.dart';
-
+import 'view/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,127 +21,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
+        fontFamily: 'Roboto',
       ),
-      home: const MyHomePage(title: "Greenscan"),
+      initialRoute: '/splash',
       routes: {
         '/profile': (context) => ProfilePage(),
-        '/register': (context) => SignupPage(),
-
+        '/register': (context) => RegisterPage(),
+        '/login': (context) => LoginPage(),
+        '/home': (context) => HomePage(title: "Greenscan"),
+        '/splash': (context) => SplashScreen(),
+        '/edit-profile': (context) => EditProfilePage(),
       },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: IconButton(
-              icon: const Icon(Icons.account_circle_outlined),
-              iconSize: 35,
-              onPressed: () {
-                Navigator.pushNamed(context, '/profile');
-              },
-            ),
-          ),
-        ],
-      ),
-      body: SizedBox.expand(
-        child: Column(
-          children: [
-            SizedBox(height: 0),
-
-            const Text(
-              "Greenscan",
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF228b22),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            // Slogan
-            const Text(
-              "Scannez, Réduisez, Protégez",
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF228b22),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-
-            const SizedBox(height: 40),
-            FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF228b22),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 13),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/scan');
-                },
-                child:const Text(
-                    "Scanner un QR Code",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )
-                )
-            ),
-            FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF228b22),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 13),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/register');
-                },
-                child:const Text(
-                    "Inscription",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )
-                )
-            ),
-
-            const SizedBox(height: 50),
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: const Text(
-                  "Votre bibliothèque",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            )
-          ],
-        )
-      ),
     );
   }
 }

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class SignupPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomController = TextEditingController();
   final _prenomController = TextEditingController();
