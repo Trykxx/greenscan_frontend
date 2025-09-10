@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(title: "Greenscan"),
         '/splash': (context) => SplashScreen(),
-        '/edit-profile': (context) => EditProfilePage(),
+        '/edit-profile': (context) => EditProfilePage(userData: {},),
       },
     );
   }

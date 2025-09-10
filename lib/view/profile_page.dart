@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'edit_profile_page.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -66,6 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('🔍 user_type brut: "${userData?['user_type']}"');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -74,9 +77,22 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.only(right: 16.0),
             child: PopupMenuButton<String>(
               icon: const Icon(Icons.more_horiz),
-              onSelected: (value) {
+              onSelected: (value) async { // 🔄 Ajoutez async ici
                 if (value == 'edit') {
-                  Navigator.pushNamed(context, '/edit-profile');
+                  if (userData != null) {
+                    // 🔄 Récupérez le résultat avec await
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfilePage(userData: userData!),
+                      ),
+                    );
+
+                    // 🔄 Si modification réussie, rafraîchir
+                    if (result == true) {
+                      _loadUserProfile(); // Utilisez votre fonction existante !
+                    }
+                  }
                 } else if (value == 'logout') {
                   _logout();
                 }
@@ -137,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 8),
               // Type d'utilisateur
               Text(
-                userData?['user_type'] == 'visiteur' ? 'Visiteur' : 'Exposant',
+                userData?['user_type']?.trim().toLowerCase() == 'visiteur' ? 'Visiteur' : 'Exposant',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey[600],
@@ -147,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Section "Mes informations personnelles"
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/edit-profile');
+                  // Navigator.pushNamed(context, '/edit-profile');
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16),

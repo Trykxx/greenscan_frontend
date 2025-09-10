@@ -1,7 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+  final Map<String, dynamic> userData;
+
+  const EditProfilePage({
+    super.key,
+    required this.userData,
+  });
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -9,14 +18,29 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  final _nomController = TextEditingController(text: 'DOE');
-  final _prenomController = TextEditingController(text: 'John');
-  final _emailController = TextEditingController(text: 'john.doe@example.com');
+  late TextEditingController _lastNameController;
+  late TextEditingController _firstNameController;
+  late TextEditingController _emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialiser avec les données reçues
+    _lastNameController = TextEditingController(
+        text: widget.userData['lastName'] ?? ''
+    );
+    _firstNameController = TextEditingController(
+        text: widget.userData['firstName'] ?? ''
+    );
+    _emailController = TextEditingController(
+        text: widget.userData['email'] ?? ''
+    );
+  }
 
   @override
   void dispose() {
-    _nomController.dispose();
-    _prenomController.dispose();
+    _lastNameController.dispose();
+    _firstNameController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -72,15 +96,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         shape: BoxShape.circle,
                         color: Theme.of(context).primaryColor,
                       ),
-                      child: IconButton(
-                        icon: const Icon(Icons.camera_alt, color: Colors.white),
-                        onPressed: () {
-                          // À implémenter plus tard
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Photo de profil - À venir')),
-                          );
-                        },
-                      ),
                     ),
                   ),
                 ],
@@ -90,7 +105,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
               // Champs modifiables
               TextFormField(
-                controller: _nomController,
+                controller: _lastNameController,
                 decoration: const InputDecoration(
                   labelText: 'Nom',
                   border: OutlineInputBorder(),
@@ -106,7 +121,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(height: 16),
 
               TextFormField(
-                controller: _prenomController,
+                controller: _firstNameController,
                 decoration: const InputDecoration(
                   labelText: 'Prénom',
                   border: OutlineInputBorder(),
@@ -144,13 +159,56 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  void _saveProfile() {
+  Future<void> _saveProfile() async {
     if (_formKey.currentState!.validate()) {
-      // Ici vous ajouterez la logique de sauvegarde
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profil sauvegardé avec succès')),
-      );
-      Navigator.pop(context);
+      try {
+        print('🚀 Début de la sauvegarde...');
+
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString('auth_token');
+
+        print('🔑 Token: $token');
+
+        final response = await http.put(
+          Uri.parse('http://10.0.2.2:8000/api/user/profile'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: json.encode({
+            'firstName': _firstNameController.text,
+            'lastName': _lastNameController.text,
+            'email': _emailController.text,
+          }),
+        );
+
+        print('📊 Status Code: ${response.statusCode}');
+        print('📄 Response Body: ${response.body}');
+        print('🎯 Response Headers: ${response.headers}');
+
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
+          print('✅ Succès: $data');
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profil sauvegardé avec succès')),
+          );
+          Navigator.pop(context,true);
+        } else {
+          print('❌ Erreur: ${response.statusCode}');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur: ${response.statusCode}')),
+          );
+        }
+
+      } catch (e) {
+        print('🔥 Exception: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur: $e')),
+        );
+      }
     }
   }
+
+
 }

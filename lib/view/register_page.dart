@@ -11,8 +11,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nomController = TextEditingController();
-  final _prenomController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -75,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 40),
 
               _buildTextField(
-                controller: _nomController,
+                controller: _lastNameController,
                 hintText: 'Nom',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 15),
 
               _buildTextField(
-                controller: _prenomController,
+                controller: _firstNameController,
                 hintText: 'Prénom',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -447,8 +447,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       final body = {
-        'lastName': _nomController.text,
-        'firstName': _prenomController.text,
+        'lastName': _lastNameController.text,
+        'firstName': _firstNameController.text,
         'email': _emailController.text,
         'password': _passwordController.text,
         'user_type': _isVisiteur ? 'visiteur' : 'exposant',
@@ -497,8 +497,8 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     _emailDebounce?.cancel();
-    _nomController.dispose();
-    _prenomController.dispose();
+    _lastNameController.dispose();
+    _firstNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
