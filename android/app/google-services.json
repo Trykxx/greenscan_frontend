@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "283863897547",
+    "project_id": "greenscan-app",
+    "storage_bucket": "greenscan-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283863897547:android:c5282789aab39c6870d24e",
+        "android_client_info": {
+          "package_name": "com.greenscan.app.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtAc9mCTbATkzS14lQVKWNhgC6NWDP_JQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

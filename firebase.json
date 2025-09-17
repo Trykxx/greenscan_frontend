@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"greenscan-app","appId":"1:283863897547:android:c5282789aab39c6870d24e","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"greenscan-app","configurations":{"android":"1:283863897547:android:c5282789aab39c6870d24e","ios":"1:283863897547:ios:eeb2bf4e4413e24a70d24e"}}}}}}

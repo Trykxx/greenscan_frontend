@@ -31,8 +31,16 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.9
+  file_picker: ^8.1.2
   shared_preferences: ^2.0.15
-  http: ^0.13.5
+  http: ^1.2.0
+  firebase_core: ^4.1.0
+  firebase_auth: ^6.0.2
+  cloud_firestore: ^6.0.1
+  firebase_storage: ^13.0.1    # Pour sélectionner PDF
+  qr_flutter: ^4.1.0      # Pour générer QR codes
+  image_picker: ^1.0.7  # Pour scanner/prendre des photos
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

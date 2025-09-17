@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../services/auth_service.dart';
+import '../widgets/add_document_dialog.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
 
@@ -10,8 +13,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  int? currentUserId;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async {
+    try {
+      final userId = await AuthService.getCurrentUserId();
+
+      if (userId == null) {
+        // Utilisateur non connecté, rediriger vers login
+        Navigator.pushReplacementNamed(context, '/login');
+        return;
+      }
+
+      setState(() {
+        currentUserId = userId;
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Erreur lors du chargement de l\'utilisateur: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (currentUserId == null) {
+      return const Scaffold(
+        body: Center(child: Text('Utilisateur non connecté')),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -55,6 +103,7 @@ class _HomePageState extends State<HomePage> {
               ),
 
               const SizedBox(height: 40),
+
               FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF228b22),
@@ -72,6 +121,37 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       )
                   )
+              ),
+
+              const SizedBox(height: 20),
+
+              FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF228b22),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 66, vertical: 13),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AddDocumentDialog(
+                      userId: currentUserId!,
+                      onDocumentAdded: () {
+                        setState(() {});
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.add, color: Colors.white),
+                label: const Text(
+                  "Ajouter un document",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
 
               const SizedBox(height: 50),
