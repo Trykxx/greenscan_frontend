@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AuthService {
-  static const String baseUrl = 'http://10.0.2.2:8000/api';
+  static const String baseUrl = 'http://10.0.2.2:9005/api';
 
   // 🎯 Récupérer l'ID de l'utilisateur connecté
   static Future<int?> getCurrentUserId() async {

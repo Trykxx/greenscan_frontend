@@ -170,7 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         print('🔑 Token: $token');
 
         final response = await http.put(
-          Uri.parse('http://10.0.2.2:8000/api/user/profile'),
+          Uri.parse('http://10.0.2.2:9005/api/user/profile'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',

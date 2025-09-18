@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
   static final FirebaseStorage _storage = FirebaseStorage.instance;
-  static const String baseUrl = 'http://10.0.2.2:8000/api';
+  static const String baseUrl = 'http://10.0.2.2:9005/api';
 
   static Future<Map<String, String>> _getHeaders() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

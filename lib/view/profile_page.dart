@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
 
       final response = await http.get(
-        Uri.parse('http://10.0.2.2:8000/api/user'),
+        Uri.parse('http://10.0.2.2:9005/api/user'),
         headers: {
           'Authorization': 'Bearer $token',
           'Accept': 'application/json',
@@ -311,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (token != null) {
         await http.post(
-          Uri.parse('http://10.0.2.2:8000/api/logout'),
+          Uri.parse('http://10.0.2.2:9005/api/logout'),
           headers: {
             'Authorization': 'Bearer $token',
             'Accept': 'application/json',

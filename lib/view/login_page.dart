@@ -257,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Navigator.pushNamed(context, '/signup');
+                  Navigator.pushNamed(context, '/register');
                   // Navigation vers la page d'inscription
                 },
             ),
@@ -307,7 +307,7 @@ class _LoginPageState extends State<LoginPage> {
 
         // VRAIE requête vers votre API Laravel
         final response = await http.post(
-          Uri.parse('http://10.0.2.2:8000/api/login'),
+          Uri.parse('http://10.0.2.2:9005/api/login'),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
